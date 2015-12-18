@@ -1,0 +1,84 @@
+<div class="full-screen">
+  <div class="container-fulid">
+  <div name="title"><h1>Shipping Order</h1></div>
+  <div class="select-shipping">
+    <div class="month">
+      <b>Select Month: </b>
+      <!-- Month dropdown -->
+      <select class="form-control" name="month" ng-model="shippingCtrl.selectMonth"
+      ng-change="shippingCtrl.selectOrder(shippingCtrl.selectMonth,shippingCtrl.selectYear)" size="1">
+          <option selected disabled>Choose here</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+      </select>
+    </div>
+    <div class="year">
+      <b>Select Year: </b>
+      <!-- Year dropdown -->
+      <select class="form-control" name="year" ng-model="shippingCtrl.selectYear"
+      ng-change="shippingCtrl.selectOrder(shippingCtrl.selectMonth,shippingCtrl.selectYear)" size="1">
+          <option selected disabled>Choose here</option>
+          <option value="2015">2015</option>
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+      </select>
+    </div>
+  </div>
+  <div class="panel panel-default page-content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Shipping Date</th>
+          <th>Order No.</th>
+          <th>Customer Name</th>
+          <th>Address</th>
+          <th>Shipping Status</th>
+          <th>Information</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="shipping in shippingCtrl.orderList" ng-if="shippingCtrl.orderList.length > 0">
+          <td>{{shipping.date | amCalendar}}</td>
+          <td >{{shipping.orderNumber}}</td>
+          <td>{{shipping.user.firstName}} {{shipping.user.lastName}}</td>
+          <td>
+            <span ng-hide="shipping.address == null">
+              {{shipping.address.address1}} {{shipping.address.address2}}
+              {{shipping.address.province}} {{shipping.address.zipcode}}
+              Tel. {{shipping.address.phoneNumber}}
+            </span>
+          </td>
+          <td>
+            <span ng-if="shipping.status === 1">Waiting</span>
+            <span ng-if="shipping.status === 2">In progress</span>
+            <span ng-if="shipping.status === 3">Done</span>
+          </td>
+          <td><button type="button" class="btn btn-info text-center" ng-click="shippingCtrl.gotoView(shipping.orderNumber)">
+            View</button></td>
+          <td><span ng-if="shipping.status === 1"><button type="button" ng-click="shippingCtrl.deliver(shipping.id,'progress')"
+            class="btn btn-default">Go for delivery</button></span>
+          <span ng-if="shipping.status === 2"><button type="button" ng-click="shippingCtrl.deliver(shipping.id,'done')"
+            class="btn btn-success">Done delivery</button></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="noshipping" ng-if="shippingCtrl.orderList.length == 0">
+    None of shipping slots is shown
+  </div>
+</div>
+
+</div>

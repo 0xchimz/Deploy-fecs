@@ -1,0 +1,43 @@
+<div class="full-screen">
+  <div class="container-fluid">
+  <div name="title"><h1>Order Management</h1></div>
+  <div class="panel panel-default">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Order No.</th>
+          <th>Customer's Name</th>
+          <th>Total Price</th>
+          <th>Order Date</th>
+          <th>Status</th>
+          <th>Information</th>
+          <th>Shipping Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="order in ordermanCtrl.orders">
+          <td>{{order.orderNumber}}</td>
+          <td>{{ordermanCtrl.getFullname(order)}}</td>
+          <td>{{ordermanCtrl.getPrice(order)}}</td>
+          <td>{{order.orderDate | amCalendar}}</td>
+          <td>
+            <span ng-if="order.status === 0">Unpaid</span>
+            <span ng-if="order.status === 1">Canceled</span>
+            <span ng-if="order.status > 1">Paid</span>
+          </td>
+          <td>
+            <button type="button" class="btn btn-info text-center" ng-init="id=order.orderNumber" ng-click="ordermanCtrl.gotoView(id)">
+            View</button>
+          </td>
+          <td ng-if="order.status === 0">
+            <button type="button" class="btn btn-danger" ng-click="ordermanCtrl.cancel(order.orderNumber)">
+            Cancel <span class="glyphicon glyphicon-remove"></span></button></td>
+          <td ng-if="order.status === 1">Canceled</td>
+          <td ng-if="order.status > 1">{{order.shipping.date | amCalendar}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>

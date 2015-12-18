@@ -1,0 +1,64 @@
+<div class="full-screen">
+<div class="container-fluid page-container">
+  <div class="">
+    <div class="category-filter col-md-2">
+      <div ng-if="User.isAdmin()">
+        <h3>Add New Product</h3>
+        <a class="btn btn-warning category-btn" ng-click="categorypageCtrl.directToAdd()" role="button">New Product
+          <i class="fa fa-plus-square"></i></a>
+      </div>
+      <div class="sort">
+        <h4>Sort by</h4>
+        <div class="btn-group">
+          <select class="form-control" ng-model="categorypageCtrl.sort_by"
+          ng-change="categorypageCtrl.order()"
+          required ng-options='option.value as option.name for option in categorypageCtrl.sortOptions'>
+          </select>
+        </div>
+      </div>
+      <h4>Filter By</h4>
+      <div class="price">
+        <h5>Price</h5>
+        <input type="radio" ng-model="categorypageCtrl.price"
+        ng-change="categorypageCtrl.filterPrice()" value="1"> Under THB 1,000 <br/>
+        <input type="radio" ng-model="categorypageCtrl.price"
+        ng-change="categorypageCtrl.filterPrice()" value="2"> THB 1,000 to THB 5,000 <br/>
+        <input type="radio" ng-model="categorypageCtrl.price"
+        ng-change="categorypageCtrl.filterPrice()" value="3"> THB 5,000 to THB 10,000 <br />
+        <input type="radio" ng-model="categorypageCtrl.price"
+        ng-change="categorypageCtrl.filterPrice()" value="4"> THB 10,000 & Above <br/>
+      </div>
+      <div class="clear margin-5">
+        <button type="button" ng-click="categorypageCtrl.clear()" class="btn btn-default half-width" name="button">Clear</button>
+      </div>
+    </div>
+
+    <div class="list col-md-10">
+        <div id="product" class="col-md-4 col-lg-2 text-center productList" ng-if="categorypageCtrl.productList.products.length > 0" ng-repeat="product in categorypageCtrl.filterPrice(categorypageCtrl.productList.products) | orderBy:categorypageCtrl.sort_by">
+          <div class="thumbnail">
+            <img id="product-img" src={{product.images[0].link}} ng-if="product.images.length > 0">
+            <img src='http://placehold.it/400x400' ng-if="product.images.length == 0">
+            <div class="caption">
+              <h3 id="product-name">{{product.name}}</h3>
+
+              <!-- easy for tester  -->
+              <h5 id="product-serial" ng-if="User.isAdmin()">[{{product.serialNumber}}]</h5>
+              <b id="product-price">{{product.price}} Baht</b>
+              <p><a id="view-button" class="btn btn-primary category-btn" ng-click="categorypageCtrl.viewProduct(product.serialNumber)" role="button">View</a></p>
+              <p ng-if="User.isAdmin()"><a class="btn btn-default category-btn" href="#/admin/product/edit/{{product.serialNumber}}"> <span class="glyphicon glyphicon-edit"/>Edit</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="notfound" ng-if="categorypageCtrl.productList.products.length == 0 || categorypageCtrl.filterPrice(categorypageCtrl.productList.products).length == 0">
+          <div class="text-center margin-5">
+            <h3>Product Not Found</h3>
+            <p ng-if="categorypageCtrl.productList.products.length == 0">Please check your product name or serial number again</p>
+            <p ng-if="categorypageCtrl.productList.products.length != 0">There is no product in this filter</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
